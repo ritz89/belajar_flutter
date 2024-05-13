@@ -17,7 +17,9 @@ class Dashboard extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const MyDiaryScreen()),
+                      builder: (context) => MyDiaryScreen(
+                            id: 0,
+                          )),
                 );
               },
               child: const Text('diary demo using stateless widged'),

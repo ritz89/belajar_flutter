@@ -1,11 +1,14 @@
+import 'package:belajar_flutter/controllers/diary_entry_controller.dart';
 import 'package:flutter/material.dart';
 import 'dashboard.dart';
+import 'package:get/get.dart';
 
 void main() {
+  Get.put(DiaryEntryController());
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends GetMaterialApp {
   const MyApp({super.key});
 
   // This widget is the root of your application.

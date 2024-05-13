@@ -4,16 +4,13 @@ class DiaryEntry {
   final int calorie;
   final DateTime createdAt;
   final bool isBurningCalorie;
-  final int diary;
 
-  DiaryEntry({
-    required this.id,
-    required this.name,
-    required this.calorie,
-    required this.createdAt,
-    required this.isBurningCalorie,
-    required this.diary,
-  });
+  DiaryEntry(
+      {required this.id,
+      required this.name,
+      required this.calorie,
+      required this.createdAt,
+      required this.isBurningCalorie});
 
   factory DiaryEntry.fromJson(Map<String, dynamic> json) {
     return DiaryEntry(
@@ -22,7 +19,6 @@ class DiaryEntry {
       calorie: json['calorie'],
       createdAt: DateTime.parse(json['created_at']),
       isBurningCalorie: json['is_burning_calorie'],
-      diary: json['diary'],
     );
   }
 
@@ -32,8 +28,7 @@ class DiaryEntry {
       'name': name,
       'calorie': calorie,
       'created_at': createdAt.toIso8601String(),
-      'is_burning_calorie': isBurningCalorie,
-      'diary': diary,
+      'is_burning_calorie': isBurningCalorie
     };
   }
 }

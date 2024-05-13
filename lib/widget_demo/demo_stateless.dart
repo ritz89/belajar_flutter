@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/diary_entry_controller.dart';
 
 class MyDiaryScreen extends StatelessWidget {
-  const MyDiaryScreen({super.key});
+  MyDiaryScreen({super.key, required this.id}) {
+    controller.loadDiaryFromApi(id);
+    print(controller.diary.value);
+  }
+  final int id;
+  final DiaryEntryController controller = Get.find<DiaryEntryController>();
 
   @override
   Widget build(BuildContext context) {
@@ -11,21 +19,30 @@ class MyDiaryScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildSummaryCard(),
-            _buildMealCard('Breakfast', 'Bread, Peanut butter, Apple', 525),
-            _buildMealCard('Lunch', 'Salmon, Vegetables, Avocado', 602),
-            _buildMealCard('Snack', 'Watermelon', 300),
+      body: Obx(() {
+        return CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: _buildSummaryCard(controller),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final entry = controller.diary.value.entries[index];
+                  return _buildMealCard(
+                      entry.name, entry.createdAt.toString(), entry.calorie);
+                },
+                childCount: controller.diary.value.entries.length,
+              ),
+            ),
           ],
-        ),
-      ),
+        );
+      }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const MyDiaryScreen()),
+            MaterialPageRoute(builder: (context) => Container()),
           );
         },
         child: const Icon(Icons.add),
@@ -33,15 +50,18 @@ class MyDiaryScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSummaryCard() {
+  Widget _buildSummaryCard(DiaryEntryController controller) {
     return Card(
       margin: const EdgeInsets.all(8.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const Text('Mediterranean diet',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Obx(() {
+              return Text(controller.diary.value.label,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold));
+            }),
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
