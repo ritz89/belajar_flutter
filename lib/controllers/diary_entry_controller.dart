@@ -7,11 +7,38 @@ class DiaryEntryController extends GetxController {
 
   Rx<Diary> get diary => _diary;
 
+  int getTotalCalories() {
+    int total = 0;
+    for (int i = 0; i < _diary.value.entries.length; i++) {
+      total += _diary.value.entries[i].calorie;
+    }
+    return total;
+  }
+
+  int getEatenCalories() {
+    int total = 0;
+    for (int i = 0; i < _diary.value.entries.length; i++) {
+      if (_diary.value.entries[i].calorie > 0) {
+        total += _diary.value.entries[i].calorie;
+      }
+    }
+    return total;
+  }
+
+  int getBurnedCalories() {
+    int total = 0;
+    for (int i = 0; i < _diary.value.entries.length; i++) {
+      if (_diary.value.entries[i].calorie < 0) {
+        total += _diary.value.entries[i].calorie;
+      }
+    }
+    return total;
+  }
+
   Future<void> loadDiaryFromApi(int diaryId) async {
     final response = await GetConnect().get(
-        'https://d05e-103-107-140-36.ngrok-free.app/diaries/api/v1/diaries/$diaryId');
+        'https://30d0-103-107-140-36.ngrok-free.app/diaries/api/v1/diaries/$diaryId');
     if (response.status.hasError) {
-      print(response.statusText);
       return Future.error(response.statusText!);
     } else {
       var responseBody = response.body;

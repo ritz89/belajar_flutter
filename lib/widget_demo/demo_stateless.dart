@@ -6,7 +6,6 @@ import '../controllers/diary_entry_controller.dart';
 class MyDiaryScreen extends StatelessWidget {
   MyDiaryScreen({super.key, required this.id}) {
     controller.loadDiaryFromApi(id);
-    print(controller.diary.value);
   }
   final int id;
   final DiaryEntryController controller = Get.find<DiaryEntryController>();
@@ -66,9 +65,12 @@ class MyDiaryScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _buildNutrientStatus('Eaten', '1127 kcal'),
-                _buildNutrientStatus('Burned', '102 kcal'),
-                _buildNutrientStatus('Left', '1503 kcal'),
+                _buildNutrientStatus(
+                    'Eaten', controller.getTotalCalories().toString()),
+                _buildNutrientStatus(
+                    'Burned', controller.getBurnedCalories().toString()),
+                _buildNutrientStatus(
+                    'Left', controller.getTotalCalories().toString()),
               ],
             ),
             // Add circular progress indicator or similar widget

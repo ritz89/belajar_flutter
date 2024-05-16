@@ -14,7 +14,7 @@ class ListDiaries extends StatefulWidget {
 
 class _ListDiariesState extends State<ListDiaries> {
   final String apiUrl =
-      'https://d05e-103-107-140-36.ngrok-free.app/diaries/api/v1/diaries/';
+      'https://30d0-103-107-140-36.ngrok-free.app/diaries/api/v1/diaries/';
   List<Diary> _diaries = [];
   bool _isLoading = true;
 
